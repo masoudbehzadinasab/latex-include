@@ -1,17 +1,28 @@
 \usepackage{xparse}
 \usepackage{amsmath}
+\usepackage{amsfonts}
+
 
 \newcommand{\bxi}{\boldsymbol{\xi}}
 \newcommand{\dt}{\, {\rm d}t}
 \newcommand{\dVblank}{\, {\rm d}V}
+\newcommand{\dvblank}{\, {\rm d}v}
 \newcommand{\dxi}{\, {\rm d}\bxi}
 \newcommand{\fr}{\underline{\nabla}}
 \newcommand{\eps}{\varepsilon}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
 
 \NewDocumentCommand \dV{ o }{%
     \IfNoValueTF{#1}{\dVblank}%
     {
         \dV_{#1}
+    }
+}
+
+\NewDocumentCommand \dv{ o }{%
+    \IfNoValueTF{#1}{\dvblank}%
+    {
+        \dv_{#1}
     }
 }
 
@@ -23,8 +34,16 @@
     \frac{{\rm D}#1}{{\rm D}#2}%
 }
 
+\NewDocumentCommand \DmatD{ m m }{%
+    \dfrac{{\rm D}#1}{{\rm D}#2}%
+}
+
 \NewDocumentCommand \D{ m m }{%
     \frac{{\rm d}#1}{{\rm d}#2}%
+}
+
+\NewDocumentCommand \Dd{ m m }{%
+    \dfrac{{\rm d}#1}{{\rm d}#2}%
 }
 
 \NewDocumentCommand \kr{ m }{%
@@ -43,6 +62,18 @@
     \frac{\partial #1}{\partial #2}%
 }
 
+\NewDocumentCommand \pN{ m m m }{%
+    \frac{\partial^{#3} #1}{\partial #2^{#3}}%
+}
+
+\NewDocumentCommand \DpN{ m m m }{%
+    \dfrac{\partial^{#3} #1}{\partial #2^{#3}}%
+}
+
+\NewDocumentCommand \Dp{ m m }{%
+    \dfrac{\partial #1}{\partial #2}%
+}
+
 \NewDocumentCommand \eref{ m }{%
     (\ref{eqn:#1})%
 }
@@ -52,7 +83,7 @@
 }
 
 \NewDocumentCommand \fref{ m }{%
-    fig.~\ref{fig:#1}%
+    Fig.~\ref{fig:#1}%
 }
 
 \NewDocumentCommand \Fref{ m }{%
@@ -67,8 +98,20 @@
     \mathbf{#1}
 }
 
+\NewDocumentCommand \dbf{ m }{%
+  \dot{\mathbf{#1}}
+}
+
+\NewDocumentCommand \mbb{ m }{%
+    \mathbb{#1}
+}
+
 \NewDocumentCommand \bbar{ m }{%
     \bar{\mbf{#1}}
+}
+
+\NewDocumentCommand \mbbar{ m }{%
+    \bar{\mbb{#1}}
 }
 
 \NewDocumentCommand \bs{ m }{%
@@ -90,8 +133,12 @@
 \NewDocumentCommand \s{ m o o }{%
     \IfNoValueTF{#3}{\stateTwo{#1}[#2]}%
     {
-    \underline{\mbf{#1}}(\mbf{#3})\an{#2}%
+    \underline{\mbf{#1}}(#3)\an{#2}%
     }
+}
+
+\NewDocumentCommand \sns{ m m }{%
+    \underline{\mbf{#1}}(\mbf{#2})%
 }
 
 \NewDocumentCommand \stateOneI{ m m }{
@@ -105,13 +152,55 @@
     }
 }
 
-\NewDocumentCommand \si{ m m o o }{%
+\NewDocumentCommand \sI{ m m o o }{%
     \IfNoValueTF{#4}{\stateTwoI{#1}{#2}[#3]}%
     {
         \stateOneI{#1}{#2}(\mbf{#4})\an{#3}
     }
 }
 
+\NewDocumentCommand \snsI{ m m o }{%
+    \IfNoValueTF{#3}{\underline{\mbf{#1}}_{#2}}%
+    {
+      \underline{\mbf{#1}}_{#2}(#3)%
+    }
+}
+
+\NewDocumentCommand \stateOneN{ m }{
+    \underline{#1}%
+}
+
+\NewDocumentCommand \stateTwoN{ m o }{%
+    \IfNoValueTF{#2}{\stateOneN{#1}}
+    {
+    \stateOneN{#1}\an{#2}%
+    }
+}
+
+\NewDocumentCommand \sN{ m o o }{%
+    \IfNoValueTF{#3}{\stateTwoN{#1}[#2]}%
+    {
+    \underline{#1}(#3)\an{#2}%
+    }
+}
+
+
 \NewDocumentCommand \scs{ m }{
     \underline{#1}%
 }
+
+\NewDocumentCommand\presuper{ m m }{%
+  {\mathop{}%
+   \mathopen{\vphantom{#2}}^{#1}%
+   \kern-1\scriptspace%
+   #2}
+}
+
+\NewDocumentCommand\presuperz{ m m m }{%
+  {\mathop{}%
+   \mathopen{\vphantom{#2}}^{#1}%
+   \kern-3\scriptspace%
+   #2\kern-8\scriptspace_{#3}%
+}
+}
+
